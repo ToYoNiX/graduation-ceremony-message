@@ -1,8 +1,15 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import NameSearch from '../components/NameSearch'
-import { Card, Button } from '../components/ui'
+import { Card, Button, Modal } from '../components/ui'
+
+// Lives in public/ and is served as-is; BASE_URL makes it resolve under the
+// GitHub Pages project path (/graduation-ceremony-message/).
+const VIDEO_SRC = `${import.meta.env.BASE_URL}graduation-video.mp4`
 
 export default function Home() {
+  const [showVideo, setShowVideo] = useState(false)
+
   return (
     <div className="space-y-6">
       <div className="text-center">
@@ -13,6 +20,9 @@ export default function Home() {
           Search for a name, then enter the secret code your graduate gave you to
           unlock their message.
         </p>
+        <Button variant="ghost" className="mt-4" onClick={() => setShowVideo(true)}>
+          🎬 Watch the video
+        </Button>
       </div>
 
       <NameSearch linkBase="/message" actionLabel="🔒 unlock →" />
@@ -23,6 +33,16 @@ export default function Home() {
           <Button className="mt-3">✍️ Write your message</Button>
         </Link>
       </Card>
+
+      <Modal open={showVideo} onClose={() => setShowVideo(false)}>
+        <video
+          src={VIDEO_SRC}
+          controls
+          autoPlay
+          playsInline
+          className="w-full rounded-xl"
+        />
+      </Modal>
     </div>
   )
 }

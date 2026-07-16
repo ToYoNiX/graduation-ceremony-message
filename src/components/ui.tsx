@@ -43,6 +43,38 @@ export function Card({ children, className = '' }: { children: React.ReactNode; 
   )
 }
 
+export function Modal({
+  open,
+  onClose,
+  children,
+}: {
+  open: boolean
+  onClose: () => void
+  children: React.ReactNode
+}) {
+  if (!open) return null
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full max-w-2xl rounded-2xl border border-white/10 bg-slate-900 p-3 shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute -right-3 -top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-slate-800 text-slate-200 hover:bg-slate-700"
+        >
+          ✕
+        </button>
+        {children}
+      </div>
+    </div>
+  )
+}
+
 export function Label({ children }: { children: React.ReactNode }) {
   return <label className="mb-1.5 block text-sm font-medium text-slate-300">{children}</label>
 }
